@@ -111,9 +111,9 @@ interface ImageGalleryProps {
 }
 
 const ImageGallery = ({ images, category, onImageClick }: ImageGalleryProps) => {
-  const filteredImages = useMemo(() =>
-    category ? images.filter((img) => img.category === category) : images,
-    [images, category]
+  const filteredImages = useMemo(
+    () => (category ? images.filter((img) => img.category === category) : images),
+    [images, category],
   )
 
   return (
@@ -229,104 +229,116 @@ export function ProjectDetailModal({ isOpen, onClose }: ProjectDetailModalProps)
     },
   ]
 
-  const navigateImage = useCallback((direction: "prev" | "next") => {
-    const newIndex =
-      direction === "prev"
-        ? currentImageIndex > 0
-          ? currentImageIndex - 1
-          : PROJECT_IMAGES.length - 1
-        : currentImageIndex < PROJECT_IMAGES.length - 1
-          ? currentImageIndex + 1
-          : 0
+  const navigateImage = useCallback(
+    (direction: "prev" | "next") => {
+      const newIndex =
+        direction === "prev"
+          ? currentImageIndex > 0
+            ? currentImageIndex - 1
+            : PROJECT_IMAGES.length - 1
+          : currentImageIndex < PROJECT_IMAGES.length - 1
+            ? currentImageIndex + 1
+            : 0
 
-    setCurrentImageIndex(newIndex)
-    setSelectedImage(PROJECT_IMAGES[newIndex].id)
-  }, [currentImageIndex])
+      setCurrentImageIndex(newIndex)
+      setSelectedImage(PROJECT_IMAGES[newIndex].id)
+    },
+    [currentImageIndex],
+  )
 
-  const techStack = useMemo(() => ({
-    backend: [
-      { name: "Java 17", icon: <Code className="w-4 h-4" />, level: 90 },
-      { name: "Spring Boot 3.5.0", icon: <Zap className="w-4 h-4" />, level: 85 },
-      { name: "Spring Security", icon: <Shield className="w-4 h-4" />, level: 85 },
-      { name: "Spring JPA + jOOQ", icon: <Database className="w-4 h-4" />, level: 80 },
-      { name: "LangChain4j", icon: <Star className="w-4 h-4" />, level: 75 },
+  const techStack = useMemo(
+    () => ({
+      backend: [
+        { name: "Java 17", icon: <Code className="w-4 h-4" />, level: 90 },
+        { name: "Spring Boot 3.5.0", icon: <Zap className="w-4 h-4" />, level: 85 },
+        { name: "Spring Security", icon: <Shield className="w-4 h-4" />, level: 85 },
+        { name: "Spring JPA + jOOQ", icon: <Database className="w-4 h-4" />, level: 80 },
+        { name: "LangChain4j", icon: <Star className="w-4 h-4" />, level: 75 },
+      ],
+      database: [
+        { name: "MySQL 8.0.41", icon: <Database className="w-4 h-4" />, level: 80 },
+        { name: "MongoDB Atlas", icon: <Database className="w-4 h-4" />, level: 75 },
+        { name: "Qdrant Vector DB", icon: <Star className="w-4 h-4" />, level: 70 },
+        { name: "AWS S3", icon: <Cloud className="w-4 h-4" />, level: 75 },
+      ],
+      devops: [
+        { name: "AWS EC2", icon: <Cloud className="w-4 h-4" />, level: 75 },
+        { name: "Docker", icon: <Cpu className="w-4 h-4" />, level: 80 },
+        { name: "GitHub Actions", icon: <Settings className="w-4 h-4" />, level: 85 },
+        { name: "LGTP Stack", icon: <Monitor className="w-4 h-4" />, level: 80 },
+        { name: "n8n Automation", icon: <Zap className="w-4 h-4" />, level: 75 },
+      ],
+    }),
+    [],
+  )
+
+  const achievements = useMemo(
+    () => [
+      {
+        title: "jOOQ + JPA 하이브리드 구현",
+        description: "복잡한 JOIN 쿼리 최적화를 위한 타입 안전 SQL 작성",
+        icon: <Database className="w-6 h-6" />,
+        impact: "게시판 조회 성능 향상",
+        badge: "🏗️ Technical",
+      },
+      {
+        title: "CI/CD 파이프라인 구축",
+        description: "Blue-Green 무중단 배포 전략 구현",
+        icon: <Cloud className="w-6 h-6" />,
+        impact: "빌드 시간 20% 단축",
+        badge: "🚀 DevOps",
+      },
+      {
+        title: "LGTP 모니터링 스택 구축",
+        description: "Loki, Grafana, Tempo, Prometheus 통합 모니터링",
+        icon: <Monitor className="w-6 h-6" />,
+        impact: "실시간 시스템 가시성 확보",
+        badge: "📊 Monitoring",
+      },
+      {
+        title: "AI 기반 질의응답 시스템",
+        description: "Gemini 2.0 Flash + Vector Search 구현",
+        icon: <Star className="w-6 h-6" />,
+        impact: "맥락 기반 답변 생성",
+        badge: "🤖 AI",
+      },
+      {
+        title: "n8n 워크플로우 자동화",
+        description: "DevOps 알림 및 코드 리뷰 자동화",
+        icon: <Zap className="w-6 h-6" />,
+        impact: "팀 커뮤니케이션 효율화",
+        badge: "⚡ Automation",
+      },
     ],
-    database: [
-      { name: "MySQL 8.0.41", icon: <Database className="w-4 h-4" />, level: 80 },
-      { name: "MongoDB Atlas", icon: <Database className="w-4 h-4" />, level: 75 },
-      { name: "Qdrant Vector DB", icon: <Star className="w-4 h-4" />, level: 70 },
-      { name: "AWS S3", icon: <Cloud className="w-4 h-4" />, level: 75 },
-    ],
-    devops: [
-      { name: "AWS EC2", icon: <Cloud className="w-4 h-4" />, level: 75 },
-      { name: "Docker", icon: <Cpu className="w-4 h-4" />, level: 80 },
-      { name: "GitHub Actions", icon: <Settings className="w-4 h-4" />, level: 85 },
-      { name: "LGTP Stack", icon: <Monitor className="w-4 h-4" />, level: 80 },
-      { name: "n8n Automation", icon: <Zap className="w-4 h-4" />, level: 75 },
-    ],
-  }), [])
+    [],
+  )
 
-  const achievements = useMemo(() => [
-    {
-      title: "jOOQ + JPA 하이브리드 구현",
-      description: "복잡한 JOIN 쿼리 최적화를 위한 타입 안전 SQL 작성",
-      icon: <Database className="w-6 h-6" />,
-      impact: "게시판 조회 성능 향상",
-      badge: "🏗️ Technical",
-    },
-    {
-      title: "CI/CD 파이프라인 구축",
-      description: "Blue-Green 무중단 배포 전략 구현",
-      icon: <Cloud className="w-6 h-6" />,
-      impact: "빌드 시간 20% 단축",
-      badge: "🚀 DevOps",
-    },
-    {
-      title: "LGTP 모니터링 스택 구축",
-      description: "Loki, Grafana, Tempo, Prometheus 통합 모니터링",
-      icon: <Monitor className="w-6 h-6" />,
-      impact: "실시간 시스템 가시성 확보",
-      badge: "📊 Monitoring",
-    },
-    {
-      title: "AI 기반 질의응답 시스템",
-      description: "Gemini 2.0 Flash + Vector Search 구현",
-      icon: <Star className="w-6 h-6" />,
-      impact: "맥락 기반 답변 생성",
-      badge: "🤖 AI",
-    },
-    {
-      title: "n8n 워크플로우 자동화",
-      description: "DevOps 알림 및 코드 리뷰 자동화",
-      icon: <Zap className="w-6 h-6" />,
-      impact: "팀 커뮤니케이션 효율화",
-      badge: "⚡ Automation",
-    },
-  ], [])
-
-  const challenges = useMemo(() => [
-    {
-      title: "CI 빌드 시간 최적화",
-      problem: "jOOQ 코드 생성으로 인한 과도한 빌드 시간 (8-9분)",
-      solution: "jOOQ 전용 워크플로우 분리 및 캐시 기반 조건부 실행",
-      result: "5-6분 → 4-5분으로 단축 (약 20% 개선)",
-      difficulty: "Hard",
-      type: "Performance",
-    },
-    {
-      title: "테스트 격리 문제 해결",
-      problem: "팀원 테스트 코드 추가 후 전체 테스트 실패",
-      solution: "RestAssured 기반 통합 테스트 안정화 및 데이터 격리 보장",
-      result: "일관된 테스트 성공률 확보",
-      difficulty: "Medium",
-      type: "Testing",
-    },
-  ], [])
+  const challenges = useMemo(
+    () => [
+      {
+        title: "CI 빌드 시간 최적화",
+        problem: "jOOQ 코드 생성으로 인한 과도한 빌드 시간 (8-9분)",
+        solution: "jOOQ 전용 워크플로우 분리 및 캐시 기반 조건부 실행",
+        result: "5-6분 → 4-5분으로 단축 (약 20% 개선)",
+        difficulty: "Hard",
+        type: "Performance",
+      },
+      {
+        title: "테스트 격리 문제 해결",
+        problem: "팀원 테스트 코드 추가 후 전체 테스트 실패",
+        solution: "RestAssured 기반 통합 테스트 안정화 및 데이터 격리 보장",
+        result: "일관된 테스트 성공률 확보",
+        difficulty: "Medium",
+        type: "Testing",
+      },
+    ],
+    [],
+  )
 
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="max-w-6xl h-[95vh] overflow-hidden p-0 bg-gradient-to-br from-green-50 via-white to-green-100 [&>button]:hidden">
+        <DialogContent className="max-w-6xl h-[95vh] p-0 bg-gradient-to-br from-green-50 via-white to-green-100 [&>button]:hidden flex flex-col">
           <div className="flex flex-col h-full">
             {/* Header - 고정 */}
             <DialogHeader className="relative p-6 bg-luigi-green text-white flex-shrink-0">
@@ -368,9 +380,9 @@ export function ProjectDetailModal({ isOpen, onClose }: ProjectDetailModalProps)
             </DialogHeader>
 
             {/* Content - 스크롤 가능 */}
-            <div className="flex-1 overflow-hidden">
+            <div className="flex-1 overflow-hidden modal-scroll-container">
               <Tabs value={activeTab} onValueChange={setActiveTab} className="h-full flex flex-col">
-                <TabsList className="w-full justify-start p-1 bg-green-100 border-b border-luigi-green/20 flex-shrink-0">
+                <TabsList className="w-full justify-start p-1 bg-green-100 border-b border-luigi-green/20 flex-shrink-0 sticky top-0 z-10">
                   <TabsTrigger
                     value="overview"
                     className="data-[state=active]:bg-luigi-green data-[state=active]:text-white"
@@ -403,9 +415,9 @@ export function ProjectDetailModal({ isOpen, onClose }: ProjectDetailModalProps)
                   </TabsTrigger>
                 </TabsList>
 
-                <div className="flex-1 overflow-y-auto px-6 py-4">
+                <div className="flex-1 tab-content-scroll">
                   {/* 모든 TabsContent는 그대로 유지하되, 각각에 적절한 스크롤 처리 */}
-                  <TabsContent value="overview" className="space-y-6 mt-0 pb-8">
+                  <TabsContent value="overview" className="space-y-6 mt-0 pb-8 h-auto">
                     {/* Project Overview */}
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
@@ -516,7 +528,7 @@ export function ProjectDetailModal({ isOpen, onClose }: ProjectDetailModalProps)
                     </motion.div>
                   </TabsContent>
 
-                  <TabsContent value="gallery" className="space-y-6 mt-0 h-full">
+                  <TabsContent value="gallery" className="space-y-6 mt-0 pb-8 h-auto">
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
                       <Card className="border-luigi-green border-2 mb-8">
                         <CardHeader>
@@ -533,7 +545,11 @@ export function ProjectDetailModal({ isOpen, onClose }: ProjectDetailModalProps)
                                 <Code className="w-4 h-4" />
                                 Architecture & Design
                               </h4>
-                              <ImageGallery images={PROJECT_IMAGES} category="Architecture" onImageClick={openImageModal} />
+                              <ImageGallery
+                                images={PROJECT_IMAGES}
+                                category="Architecture"
+                                onImageClick={openImageModal}
+                              />
                             </div>
 
                             {/* Screenshots */}
@@ -542,7 +558,11 @@ export function ProjectDetailModal({ isOpen, onClose }: ProjectDetailModalProps)
                                 <Monitor className="w-4 h-4" />
                                 Application Screenshots
                               </h4>
-                              <ImageGallery images={PROJECT_IMAGES} category="Screenshots" onImageClick={openImageModal} />
+                              <ImageGallery
+                                images={PROJECT_IMAGES}
+                                category="Screenshots"
+                                onImageClick={openImageModal}
+                              />
                             </div>
 
                             {/* Monitoring */}
@@ -551,7 +571,11 @@ export function ProjectDetailModal({ isOpen, onClose }: ProjectDetailModalProps)
                                 <Settings className="w-4 h-4" />
                                 Monitoring & Analytics
                               </h4>
-                              <ImageGallery images={PROJECT_IMAGES} category="Monitoring" onImageClick={openImageModal} />
+                              <ImageGallery
+                                images={PROJECT_IMAGES}
+                                category="Monitoring"
+                                onImageClick={openImageModal}
+                              />
                             </div>
 
                             {/* DevOps */}
@@ -568,7 +592,7 @@ export function ProjectDetailModal({ isOpen, onClose }: ProjectDetailModalProps)
                     </motion.div>
                   </TabsContent>
 
-                  <TabsContent value="technical" className="space-y-6 mt-0 h-full">
+                  <TabsContent value="technical" className="space-y-6 mt-0 pb-8 h-auto">
                     {/* Technology Stack */}
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
                       <Card className="border-luigi-green border-2 mb-8">
@@ -643,7 +667,7 @@ export function ProjectDetailModal({ isOpen, onClose }: ProjectDetailModalProps)
                     </motion.div>
                   </TabsContent>
 
-                  <TabsContent value="challenges" className="space-y-6 mt-0 h-full">
+                  <TabsContent value="challenges" className="space-y-6 mt-0 pb-8 h-auto">
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
                       <Card className="border-luigi-green border-2 mb-8">
                         <CardHeader>
@@ -724,7 +748,7 @@ export function ProjectDetailModal({ isOpen, onClose }: ProjectDetailModalProps)
                     </motion.div>
                   </TabsContent>
 
-                  <TabsContent value="results" className="space-y-6 mt-0 h-full">
+                  <TabsContent value="results" className="space-y-6 mt-0 pb-8 h-auto">
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
                       {/* Technical Metrics */}
                       <Card className="border-luigi-green border-2 mb-8">
