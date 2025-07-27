@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
 import {
   Github,
@@ -24,18 +24,9 @@ import { Progress } from "@/components/ui/progress"
 import { ProjectDetailModal } from "@/components/project-detail-modal"
 
 export default function LuigiPortfolio() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [isModalOpen, setIsModalOpen] = useState(false)
   const { scrollYProgress } = useScroll()
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"])
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY })
-    }
-    window.addEventListener("mousemove", handleMouseMove)
-    return () => window.removeEventListener("mousemove", handleMouseMove)
-  }, [])
 
   const skills = [
     { name: "Java 17", level: 90, icon: <Code className="w-4 h-4" /> },
@@ -64,18 +55,6 @@ export default function LuigiPortfolio() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-100 relative overflow-hidden">
-      {/* Custom Cursor */}
-      <motion.div
-        className="fixed w-8 h-8 pointer-events-none z-50 mix-blend-difference"
-        animate={{
-          x: mousePosition.x - 16,
-          y: mousePosition.y - 16,
-        }}
-        transition={{ type: "spring", stiffness: 500, damping: 28 }}
-      >
-        <div className="w-full h-full bg-luigi-green rounded-full opacity-80" />
-      </motion.div>
-
       {/* Hero Section */}
       <section className="min-h-screen flex items-center justify-center relative px-4">
         <motion.div
