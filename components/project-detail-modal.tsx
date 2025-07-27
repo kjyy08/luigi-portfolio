@@ -256,7 +256,7 @@ export function ProjectDetailModal({ isOpen, onClose }: ProjectDetailModalProps)
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="max-w-6xl h-[95vh] overflow-hidden p-0 bg-gradient-to-br from-green-50 via-white to-green-100">
+        <DialogContent className="max-w-6xl h-[95vh] overflow-hidden p-0 bg-gradient-to-br from-green-50 via-white to-green-100 [&>button]:hidden">
           <div className="flex flex-col h-full">
             {/* Header - 고정 */}
             <DialogHeader className="relative p-6 bg-luigi-green text-white flex-shrink-0">
