@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useMemo, useCallback } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import {
   X,
@@ -43,15 +43,132 @@ interface ProjectDetailModalProps {
   onClose: () => void
 }
 
+// Move projectImages outside component to prevent recreation
+const PROJECT_IMAGES = [
+  {
+    id: "architecture",
+    title: "System Architecture Diagram",
+    description: "Microservices architecture with AWS cloud infrastructure",
+    url: "/placeholder.svg?height=400&width=600&text=System+Architecture",
+    category: "Architecture",
+  },
+  {
+    id: "main-dashboard",
+    title: "Main Dashboard",
+    description: "Community platform main dashboard with project listings",
+    url: "/placeholder.svg?height=400&width=600&text=Main+Dashboard",
+    category: "Screenshots",
+  },
+  {
+    id: "chat-interface",
+    title: "Real-time Chat Interface",
+    description: "WebSocket-based real-time chat with AI integration",
+    url: "/placeholder.svg?height=400&width=600&text=Chat+Interface",
+    category: "Screenshots",
+  },
+  {
+    id: "ai-qa-system",
+    title: "AI Q&A System",
+    description: "Gemini 2.0 Flash powered question-answer interface",
+    url: "/placeholder.svg?height=400&width=600&text=AI+QA+System",
+    category: "Screenshots",
+  },
+  {
+    id: "monitoring-dashboard",
+    title: "LGTP Monitoring Dashboard",
+    description: "Grafana dashboard showing system metrics and logs",
+    url: "/placeholder.svg?height=400&width=600&text=Monitoring+Dashboard",
+    category: "Monitoring",
+  },
+  {
+    id: "cicd-pipeline",
+    title: "CI/CD Pipeline Visualization",
+    description: "GitHub Actions workflow with Blue-Green deployment",
+    url: "/placeholder.svg?height=400&width=600&text=CICD+Pipeline",
+    category: "DevOps",
+  },
+  {
+    id: "database-schema",
+    title: "Database Schema Design",
+    description: "MySQL and MongoDB schema with relationships",
+    url: "/placeholder.svg?height=400&width=600&text=Database+Schema",
+    category: "Architecture",
+  },
+  {
+    id: "n8n-workflow",
+    title: "n8n Automation Workflow",
+    description: "Automated notification and code review workflows",
+    url: "/placeholder.svg?height=400&width=600&text=n8n+Workflow",
+    category: "DevOps",
+  },
+] as const
+
+// Create ImageGallery component outside main component
+interface ImageGalleryProps {
+  images: typeof PROJECT_IMAGES
+  category?: string
+  onImageClick: (imageId: string) => void
+}
+
+const ImageGallery = ({ images, category, onImageClick }: ImageGalleryProps) => {
+  const filteredImages = useMemo(() =>
+    category ? images.filter((img) => img.category === category) : images,
+    [images, category]
+  )
+
+  return (
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 pb-4">
+      {filteredImages.map((image, index) => (
+        <motion.div
+          key={image.id}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: index * 0.1 }}
+          className="group relative bg-white rounded-lg border border-luigi-green/20 overflow-hidden hover:shadow-lg transition-all cursor-pointer"
+          onClick={() => onImageClick(image.id)}
+        >
+          <div className="aspect-video relative overflow-hidden">
+            <img
+              src={image.url || "/placeholder.svg"}
+              alt={image.title}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            />
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+              <ZoomIn className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            </div>
+          </div>
+          <div className="p-3">
+            <h4 className="font-semibold text-luigi-green text-sm mb-1">{image.title}</h4>
+            <p className="text-xs text-gray-600 line-clamp-2">{image.description}</p>
+            <Badge variant="outline" className="mt-2 text-xs border-luigi-green/50 text-luigi-green">
+              {image.category}
+            </Badge>
+          </div>
+        </motion.div>
+      ))}
+    </div>
+  )
+}
+
 export function ProjectDetailModal({ isOpen, onClose }: ProjectDetailModalProps) {
   const [activeTab, setActiveTab] = useState("overview")
   const [expandedSections, setExpandedSections] = useState<string[]>([])
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
-  const toggleSection = (section: string) => {
+  const toggleSection = useCallback((section: string) => {
     setExpandedSections((prev) => (prev.includes(section) ? prev.filter((s) => s !== section) : [...prev, section]))
-  }
+  }, [])
+
+  const openImageModal = useCallback((imageId: string) => {
+    const index = PROJECT_IMAGES.findIndex((img) => img.id === imageId)
+    setCurrentImageIndex(index)
+    setSelectedImage(imageId)
+  }, [])
+
+  const closeImageModal = useCallback(() => {
+    setSelectedImage(null)
+  }, [])
 
   const projectImages = [
     {
@@ -112,31 +229,21 @@ export function ProjectDetailModal({ isOpen, onClose }: ProjectDetailModalProps)
     },
   ]
 
-  const openImageModal = (imageId: string) => {
-    const index = projectImages.findIndex((img) => img.id === imageId)
-    setCurrentImageIndex(index)
-    setSelectedImage(imageId)
-  }
-
-  const closeImageModal = () => {
-    setSelectedImage(null)
-  }
-
-  const navigateImage = (direction: "prev" | "next") => {
+  const navigateImage = useCallback((direction: "prev" | "next") => {
     const newIndex =
       direction === "prev"
         ? currentImageIndex > 0
           ? currentImageIndex - 1
-          : projectImages.length - 1
-        : currentImageIndex < projectImages.length - 1
+          : PROJECT_IMAGES.length - 1
+        : currentImageIndex < PROJECT_IMAGES.length - 1
           ? currentImageIndex + 1
           : 0
 
     setCurrentImageIndex(newIndex)
-    setSelectedImage(projectImages[newIndex].id)
-  }
+    setSelectedImage(PROJECT_IMAGES[newIndex].id)
+  }, [currentImageIndex])
 
-  const techStack = {
+  const techStack = useMemo(() => ({
     backend: [
       { name: "Java 17", icon: <Code className="w-4 h-4" />, level: 90 },
       { name: "Spring Boot 3.5.0", icon: <Zap className="w-4 h-4" />, level: 85 },
@@ -157,9 +264,9 @@ export function ProjectDetailModal({ isOpen, onClose }: ProjectDetailModalProps)
       { name: "LGTP Stack", icon: <Monitor className="w-4 h-4" />, level: 80 },
       { name: "n8n Automation", icon: <Zap className="w-4 h-4" />, level: 75 },
     ],
-  }
+  }), [])
 
-  const achievements = [
+  const achievements = useMemo(() => [
     {
       title: "jOOQ + JPA 하이브리드 구현",
       description: "복잡한 JOIN 쿼리 최적화를 위한 타입 안전 SQL 작성",
@@ -195,9 +302,9 @@ export function ProjectDetailModal({ isOpen, onClose }: ProjectDetailModalProps)
       impact: "팀 커뮤니케이션 효율화",
       badge: "⚡ Automation",
     },
-  ]
+  ], [])
 
-  const challenges = [
+  const challenges = useMemo(() => [
     {
       title: "CI 빌드 시간 최적화",
       problem: "jOOQ 코드 생성으로 인한 과도한 빌드 시간 (8-9분)",
@@ -214,44 +321,7 @@ export function ProjectDetailModal({ isOpen, onClose }: ProjectDetailModalProps)
       difficulty: "Medium",
       type: "Testing",
     },
-  ]
-
-  const ImageGallery = ({ images, category }: { images: typeof projectImages; category?: string }) => {
-    const filteredImages = category ? images.filter((img) => img.category === category) : images
-
-    return (
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 pb-4">
-        {filteredImages.map((image, index) => (
-          <motion.div
-            key={image.id}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: index * 0.1 }}
-            className="group relative bg-white rounded-lg border border-luigi-green/20 overflow-hidden hover:shadow-lg transition-all cursor-pointer"
-            onClick={() => openImageModal(image.id)}
-          >
-            <div className="aspect-video relative overflow-hidden">
-              <img
-                src={image.url || "/placeholder.svg"}
-                alt={image.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-                <ZoomIn className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </div>
-            </div>
-            <div className="p-3">
-              <h4 className="font-semibold text-luigi-green text-sm mb-1">{image.title}</h4>
-              <p className="text-xs text-gray-600 line-clamp-2">{image.description}</p>
-              <Badge variant="outline" className="mt-2 text-xs border-luigi-green/50 text-luigi-green">
-                {image.category}
-              </Badge>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    )
-  }
+  ], [])
 
   return (
     <>
@@ -463,7 +533,7 @@ export function ProjectDetailModal({ isOpen, onClose }: ProjectDetailModalProps)
                                 <Code className="w-4 h-4" />
                                 Architecture & Design
                               </h4>
-                              <ImageGallery images={projectImages} category="Architecture" />
+                              <ImageGallery images={PROJECT_IMAGES} category="Architecture" onImageClick={openImageModal} />
                             </div>
 
                             {/* Screenshots */}
@@ -472,7 +542,7 @@ export function ProjectDetailModal({ isOpen, onClose }: ProjectDetailModalProps)
                                 <Monitor className="w-4 h-4" />
                                 Application Screenshots
                               </h4>
-                              <ImageGallery images={projectImages} category="Screenshots" />
+                              <ImageGallery images={PROJECT_IMAGES} category="Screenshots" onImageClick={openImageModal} />
                             </div>
 
                             {/* Monitoring */}
@@ -481,7 +551,7 @@ export function ProjectDetailModal({ isOpen, onClose }: ProjectDetailModalProps)
                                 <Settings className="w-4 h-4" />
                                 Monitoring & Analytics
                               </h4>
-                              <ImageGallery images={projectImages} category="Monitoring" />
+                              <ImageGallery images={PROJECT_IMAGES} category="Monitoring" onImageClick={openImageModal} />
                             </div>
 
                             {/* DevOps */}
@@ -490,7 +560,7 @@ export function ProjectDetailModal({ isOpen, onClose }: ProjectDetailModalProps)
                                 <Cloud className="w-4 h-4" />
                                 DevOps & Infrastructure
                               </h4>
-                              <ImageGallery images={projectImages} category="DevOps" />
+                              <ImageGallery images={PROJECT_IMAGES} category="DevOps" onImageClick={openImageModal} />
                             </div>
                           </div>
                         </CardContent>

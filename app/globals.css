@@ -89,3 +89,22 @@ html {
 .glow-green:hover {
   box-shadow: 0 0 30px rgba(0, 166, 81, 0.5);
 }
+
+/* Modal Dialog 스크롤 최적화 */
+[data-radix-dialog-content] {
+  max-height: 95vh !important;
+  overflow: hidden !important;
+}
+
+[data-radix-dialog-overlay] {
+  backdrop-filter: blur(4px);
+}
+
+/* TabsContent 스크롤 개선 */
+[data-state="active"][role="tabpanel"] {
+  display: block !important;
+}
+
+[data-state="inactive"][role="tabpanel"] {
+  display: none !important;
+}
