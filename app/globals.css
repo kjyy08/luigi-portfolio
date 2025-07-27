@@ -155,3 +155,32 @@ html {
 }
 
 /* Firefox 스크롤바 스타일 제거 (원래대로) */
+
+/* 기본 마우스 커서를 숨기고 커스텀 Luigi 포인터만 보이도록 설정: */
+
+/* 기본 마우스 커서 숨기기 */
+* {
+  cursor: none !important;
+}
+
+/* 입력 필드나 버튼 등에서도 커서 숨기기 */
+input,
+button,
+a,
+[role="button"],
+[tabindex] {
+  cursor: none !important;
+}
+
+/* 텍스트 선택 가능한 영역에서도 커서 숨기기 */
+p,
+span,
+div,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  cursor: none !important;
+}
