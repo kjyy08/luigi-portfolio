@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --luigi-green: #00a651;
+  --luigi-dark-green: #008a43;
+  --luigi-light-green: #4cbb17;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer utilities {
+  .text-luigi-green {
+    color: var(--luigi-green);
+  }
+
+  .bg-luigi-green {
+    background-color: var(--luigi-green);
+  }
+
+  .border-luigi-green {
+    border-color: var(--luigi-green);
+  }
+
+  .hover\:bg-luigi-green:hover {
+    background-color: var(--luigi-green);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--luigi-green);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--luigi-dark-green);
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom animations */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.float-animation {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Pixel art style elements */
+.pixel-border {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* Gaming-style glow effects */
+.glow-green {
+  box-shadow: 0 0 20px rgba(0, 166, 81, 0.3);
+}
+
+.glow-green:hover {
+  box-shadow: 0 0 30px rgba(0, 166, 81, 0.5);
+}
