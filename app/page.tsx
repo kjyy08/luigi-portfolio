@@ -21,9 +21,11 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
+import { ProjectDetailModal } from "@/components/project-detail-modal"
 
 export default function LuigiPortfolio() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const { scrollYProgress } = useScroll()
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"])
 
@@ -315,7 +317,10 @@ export default function LuigiPortfolio() {
 
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-              <Card className="border-luigi-green border-2">
+              <Card
+                className="border-luigi-green border-2 cursor-pointer hover:shadow-lg transition-shadow"
+                onClick={() => setIsModalOpen(true)}
+              >
                 <CardHeader>
                   <CardTitle className="text-2xl text-luigi-green">데브코스 수강생을 위한 커뮤니티 플랫폼</CardTitle>
                   <CardDescription className="text-lg">
@@ -346,6 +351,9 @@ export default function LuigiPortfolio() {
                         </Badge>
                       ))}
                     </div>
+                  </div>
+                  <div className="text-center">
+                    <Button className="bg-luigi-green hover:bg-luigi-dark-green text-white">프로젝트 상세보기</Button>
                   </div>
                 </CardContent>
               </Card>
@@ -428,6 +436,9 @@ export default function LuigiPortfolio() {
           </motion.div>
         </div>
       </section>
+
+      {/* Project Detail Modal */}
+      <ProjectDetailModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   )
 }
