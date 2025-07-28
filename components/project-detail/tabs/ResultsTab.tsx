@@ -76,7 +76,7 @@ export function ResultsTab() {
                   variant="outline"
                   className="border-luigi-green text-luigi-green hover:bg-luigi-green hover:text-white bg-transparent"
                   onClick={() => {
-                    window.open('https://github.com/kjyy08/AIBE1-FinalProject-Team01-BE', '_blank');
+                    window.location.href = 'https://github.com/kjyy08/AIBE1-FinalProject-Team01-BE';
                   }}
                 >
                   <Github className="w-4 h-4 mr-2" />
@@ -86,7 +86,7 @@ export function ResultsTab() {
                   variant="outline"
                   className="border-luigi-green text-luigi-green hover:bg-luigi-green hover:text-white bg-transparent"
                   onClick={() => {
-                    window.open('https://www.amateurs.co.kr/', '_blank');
+                    window.location.href = 'https://www.amateurs.co.kr/';
                   }}
                 >
                   <ExternalLink className="w-4 h-4 mr-2" />
