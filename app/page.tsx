@@ -13,7 +13,7 @@ import {
   Gamepad2,
   Star,
   Zap,
-  Globe,
+  Globe, Eye,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -355,8 +355,7 @@ export default function LuigiPortfolio() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
               <Card
-                className="border-luigi-green border-2 cursor-pointer hover:shadow-lg transition-shadow"
-                onClick={() => setIsModalOpen(true)}
+                className="border-luigi-green border-2 hover:shadow-lg transition-shadow"
               >
                 <CardHeader>
                   <CardTitle className="text-2xl text-luigi-green">데브코스 수강생을 위한 커뮤니티 플랫폼</CardTitle>
@@ -387,6 +386,12 @@ export default function LuigiPortfolio() {
                         "GitHub Actions",
                         "WebSocket",
                         "Gemini 2.0 Flash",
+                        "Loki",
+                        "Grafana",
+                        "Tempo",
+                        "Prometheus",
+                        "OTEL-Collector",
+                        "n8n"
                       ].map((tech) => (
                         <Badge key={tech} variant="outline" className="border-luigi-green text-luigi-green">
                           {tech}
@@ -394,12 +399,31 @@ export default function LuigiPortfolio() {
                       ))}
                     </div>
                   </div>
-                  <div className="text-center space-y-3">
-                    <Button 
-                      className="bg-luigi-green hover:bg-luigi-dark-green text-white mr-3"
+                  <div className="text-center flex justify-center space-x-4">
+                    <Button
+                      className="bg-luigi-light-green text-luigi-green hover:bg-luigi-green hover:text-white bg-transparent"
                       onClick={() => setIsModalOpen(true)}
                     >
-                      프로젝트 상세보기
+                      <Eye className="w-4 h-4 mr-1" />
+                      Project Details
+                    </Button>
+                    <Button
+                      className="bg-luigi-light-green text-luigi-green hover:bg-luigi-green hover:text-white bg-transparent"
+                      onClick={() => {
+                        window.open('https://github.com/kjyy08/AIBE1-FinalProject-Team01-BE', '_blank');
+                      }}
+                    >
+                      <Github className="w-4 h-4 mr-1" />
+                      GitHub
+                    </Button>
+                    <Button
+                        className="bg-luigi-light-green text-luigi-green hover:bg-luigi-green hover:text-white bg-transparent"
+                        onClick={() => {
+                          window.open('https://www.amateurs.co.kr/', '_blank');
+                        }}
+                    >
+                      <ExternalLink className="w-4 h-4 mr-1" />
+                      Live Demo
                     </Button>
                   </div>
                 </CardContent>
