@@ -1,0 +1,190 @@
+import { ProjectImage, TechItemData, AchievementData, Challenge } from "./types"
+
+export const PROJECT_IMAGES: readonly ProjectImage[] = [
+  {
+    id: "architecture",
+    title: "시스템 아키텍처 구조",
+    description: "",
+    url: "/images/projects/amateurs/architecture.png",
+    category: "Architecture",
+  },
+  {
+    id: "database-schema",
+    title: "DB Schema",
+    description: "",
+    url: "/images/projects/amateurs/schema.png",
+    category: "Architecture",
+  },
+  {
+    id: "main-dashboard",
+    title: "메인 페이지",
+    description: "",
+    url: "/images/projects/amateurs/home.png",
+    category: "Screenshots",
+  },
+  {
+    id: "chat-interface",
+    title: "실시간 채팅",
+    description: "",
+    url: "/images/projects/amateurs/chat.png",
+    category: "Screenshots",
+  },
+  {
+    id: "springboot-dashboard",
+    title: "SpringBoot HTTP & Log 대시보드",
+    description: "",
+    url: "/images/projects/amateurs/grafana.png",
+    category: "Monitoring",
+  },
+  {
+    id: "system-dashboard",
+    title: "System 모니터링 대시보드",
+    description: "",
+    url: "/images/projects/amateurs/grafana-2.png",
+    category: "Monitoring",
+  },
+  {
+    id: "cicd-pipeline-1",
+    title: "CI 파이프라인",
+    description: "",
+    url: "/images/projects/amateurs/cicd.png",
+    category: "DevOps",
+  },
+  {
+    id: "cicd-pipeline-2",
+    title: "CD 파이프라인",
+    description: "",
+    url: "/images/projects/amateurs/cicd-2.png",
+    category: "DevOps",
+  },
+  {
+    id: "cicd-pipeline-3",
+    title: "CI/CD 결과 알림",
+    description: "",
+    url: "/images/projects/amateurs/cicd-3.png",
+    category: "DevOps",
+  },
+  {
+    id: "n8n-workflow-1",
+    title: "AI 코드 리뷰 워크플로우",
+    description: "",
+    url: "/images/projects/amateurs/workflow.png",
+    category: "DevOps",
+  },
+  {
+    id: "n8n-workflow-2",
+    title: "AI 코드 리뷰 결과 캡쳐 1",
+    description: "",
+    url: "/images/projects/amateurs/workflow-2.png",
+    category: "DevOps",
+  },
+  {
+    id: "n8n-workflow-3",
+    title: "AI 코드 리뷰 결과 캡쳐 2",
+    description: "",
+    url: "/images/projects/amateurs/workflow-3.png",
+    category: "DevOps",
+  },
+  {
+    id: "n8n-workflow-4",
+    title: "PR 리마인드 워크플로우",
+    description: "",
+    url: "/images/projects/amateurs/workflow-4.png",
+    category: "DevOps",
+  },
+  {
+    id: "n8n-workflow-5",
+    title: "PR 리마인드 알림 캡쳐",
+    description: "",
+    url: "/images/projects/amateurs/workflow-5.png",
+    category: "DevOps",
+  },
+] as const
+
+export const TECH_STACK_DATA = {
+  backend: [
+    { name: "Java 17" },
+    { name: "Spring Boot 3.5.0" },
+    { name: "Spring Security" },
+    { name: "JWT + OAuth2" },
+    { name: "Spring JPA + jOOQ" },
+    { name: "LangChain4j" },
+    { name: "JaCoCo" },
+    { name: "Rest-Assured" },
+  ] as TechItemData[],
+  database: [
+    { name: "AWS RDS (MySQL 8.0.41)" },
+    { name: "MongoDB Atlas" },
+    { name: "Qdrant Vector DB" },
+    { name: "AWS S3" },
+  ] as TechItemData[],
+  devops: [
+    { name: "AWS EC2" },
+    { name: "AWS CloudFront" },
+    { name: "Docker" },
+    { name: "GitHub Actions" },
+    { name: "Loki" },
+    { name: "Grafana" },
+    { name: "Tempo" },
+    { name: "Prometheus" },
+    { name: "OTEL Collector" },
+    { name: "n8n" },
+  ] as TechItemData[],
+}
+
+export const ACHIEVEMENTS_DATA: AchievementData[] = [
+  {
+    title: "jOOQ + JPA 세팅",
+    description: "조회에 사용되는 복잡한 JOIN 쿼리 최적화를 위한 타입 안전 SQL 작성",
+    iconName: "Database",
+    impact: "게시판 조회 성능 향상",
+    badge: "🏗️ Technical",
+  },
+  {
+    title: "프로젝트 허브 게시판 API 개발",
+    description: "프로젝트 허브 게시판 RESTful API 구현 및 테스트 코드 작성",
+    iconName: "Star",
+    impact: "테스트 커버리지 61.3% 달성",
+    badge: "🤖 AI",
+  },
+  {
+    title: "CI/CD 파이프라인 구축",
+    description: "Blue-Green 무중단 배포 전략 구현",
+    iconName: "Cloud",
+    impact: "빌드 시간 20% 단축",
+    badge: "🚀 DevOps",
+  },
+  {
+    title: "LGTP 모니터링 스택 구축",
+    description: "Loki, Grafana, Tempo, Prometheus 통합 모니터링",
+    iconName: "Monitor",
+    impact: "실시간 시스템 가시성 확보",
+    badge: "📊 Monitoring",
+  },
+  {
+    title: "n8n 워크플로우 자동화",
+    description: "DevOps 알림 및 코드 리뷰 자동화",
+    iconName: "Zap",
+    impact: "팀 커뮤니케이션 효율화",
+    badge: "⚡ Automation",
+  },
+]
+
+export const CHALLENGES: Challenge[] = [
+  {
+    title: "CI 빌드 시간 최적화",
+    problem: "모든 CI 파이프라인에서 jOOQ 코드 생성이 매번 실행되어 빌드 시간을 과도하게 소요, 약 5~6분",
+    solution: "jOOQ 전용 워크플로우 분리 및 캐시 기반 조건부 실행",
+    result: "5~6분 → 4~5분으로 단축 (약 20% 개선)",
+    difficulty: "Medium",
+    type: "Performance",
+  },
+  {
+    title: "테스트 격리 문제 해결",
+    problem: "정상적으로 동작하던 테스트가 팀원의 테스트 코드 추가 후 전체 테스트 실패",
+    solution: "테스트 실행 전, 실행 후에 데이터 정리 로직 추가로 데이터 격리 보장",
+    result: "일관된 테스트 성공률 확보",
+    difficulty: "Hard",
+    type: "Testing",
+  },
+]

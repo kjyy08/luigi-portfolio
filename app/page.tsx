@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
 import {
   Github,
@@ -13,29 +13,48 @@ import {
   Gamepad2,
   Star,
   Zap,
-  Shield,
-  Cpu,
   Globe,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
 import { ProjectDetailModal } from "@/components/project-detail-modal"
 
 export default function LuigiPortfolio() {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isClient, setIsClient] = useState(false)
   const { scrollYProgress } = useScroll()
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"])
 
-  const skills = [
-    { name: "Java 17", level: 90, icon: <Code className="w-4 h-4" /> },
-    { name: "Spring Boot", level: 85, icon: <Zap className="w-4 h-4" /> },
-    { name: "MySQL", level: 80, icon: <Database className="w-4 h-4" /> },
-    { name: "AWS", level: 75, icon: <Cloud className="w-4 h-4" /> },
-    { name: "Docker", level: 70, icon: <Cpu className="w-4 h-4" /> },
-    { name: "Spring Security", level: 85, icon: <Shield className="w-4 h-4" /> },
-  ]
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  const skillCategories = {
+    Backend: [
+      { name: "Java", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" },
+      { name: "Spring", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg" },
+      { name: "Hibernate", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/hibernate/hibernate-original.svg" },
+      { name: "MySQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" },
+    ],
+    DevOps: [
+      { name: "Linux", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linux/linux-original.svg" },
+      { name: "AWS", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" },
+      { name: "Docker", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" },
+      { name: "Kubernetes", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg" },
+      { name: "GitHub Actions", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/githubactions/githubactions-original.svg" },
+      { name: "Jenkins", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jenkins/jenkins-original.svg" },
+    ],
+    Tools: [
+      { name: "IntelliJ IDEA", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/intellij/intellij-original.svg" },
+      { name: "Git", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" },
+      { name: "Figma", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" },
+      { name: "Unity", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/unity/unity-original.svg" },
+      { name: "Swagger", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swagger/swagger-original.svg" },
+      { name: "Notion", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/notion/notion-original.svg" },
+      { name: "Slack", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/slack/slack-original.svg" },
+    ],
+  }
 
   const achievements = [
     {
@@ -44,13 +63,13 @@ export default function LuigiPortfolio() {
       icon: <Database className="w-6 h-6" />,
     },
     {
-      title: "프로젝트 허브 시판 API 개발",
+      title: "프로젝트 허브 게시판 API 개발",
       description: "커뮤니티 플랫폼 핵심 API 구현",
       icon: <Code className="w-6 h-6" />,
     },
     { title: "CI/CD 워크플로우 구현", description: "블루/그린 배포 전략 적용", icon: <Cloud className="w-6 h-6" /> },
     { title: "n8n 자동화 워크플로우", description: "알림 시스템 자동화 구현", icon: <Zap className="w-6 h-6" /> },
-    { title: "LGTP Observability 구축", description: "모니터링 환경 완전 구축", icon: <Globe className="w-6 h-6" /> },
+    { title: "LGTP Observability 구축", description: "모니터링 환경 구축", icon: <Globe className="w-6 h-6" /> },
   ]
 
   return (
@@ -63,19 +82,6 @@ export default function LuigiPortfolio() {
           transition={{ duration: 1 }}
           className="text-center max-w-4xl mx-auto"
         >
-          {/* Luigi Hat Icon */}
-          <motion.div
-            className="w-24 h-24 mx-auto mb-8 relative"
-            animate={{ rotate: [0, 10, -10, 0] }}
-            transition={{ duration: 4, repeat: Number.POSITIVE_INFINITY }}
-          >
-            <div className="w-full h-full bg-luigi-green rounded-full relative">
-              <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-16 h-12 bg-luigi-green rounded-t-full border-4 border-white" />
-              <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-8 h-6 bg-white rounded-full" />
-              <div className="absolute top-5 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-luigi-green rounded-full" />
-            </div>
-          </motion.div>
-
           <motion.h1
             className="text-6xl md:text-8xl font-bold text-luigi-green mb-4"
             initial={{ scale: 0.5 }}
@@ -123,33 +129,45 @@ export default function LuigiPortfolio() {
               variant="outline"
               size="lg"
               className="hover:bg-luigi-green hover:text-white transition-colors bg-transparent"
+              asChild
             >
-              <Phone className="w-4 h-4 mr-2" />
-              010-2472-0947
+              <a href="tel:010-2472-0947">
+                <Phone className="w-4 h-4 mr-2" />
+                010-2472-0947
+              </a>
             </Button>
             <Button
               variant="outline"
               size="lg"
               className="hover:bg-luigi-green hover:text-white transition-colors bg-transparent"
+              asChild
             >
-              <Mail className="w-4 h-4 mr-2" />
-              kjyy08@naver.com
+              <a href="mailto:kjyy08@naver.com">
+                <Mail className="w-4 h-4 mr-2" />
+                kjyy08@naver.com
+              </a>
             </Button>
             <Button
               variant="outline"
               size="lg"
               className="hover:bg-luigi-green hover:text-white transition-colors bg-transparent"
+              asChild
             >
-              <Github className="w-4 h-4 mr-2" />
-              GitHub
+              <a href="https://github.com/kjyy08" target="_blank" rel="noopener noreferrer">
+                <Github className="w-4 h-4 mr-2" />
+                GitHub
+              </a>
             </Button>
             <Button
               variant="outline"
               size="lg"
               className="hover:bg-luigi-green hover:text-white transition-colors bg-transparent"
+              asChild
             >
-              <ExternalLink className="w-4 h-4 mr-2" />
-              Blog
+              <a href="https://velog.io/@kjyy08" target="_blank" rel="noopener noreferrer">
+                <ExternalLink className="w-4 h-4 mr-2" />
+                Blog
+              </a>
             </Button>
           </motion.div>
         </motion.div>
@@ -167,27 +185,44 @@ export default function LuigiPortfolio() {
             About Me
           </motion.h2>
 
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid md:grid-cols-2 gap-12 items-start">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               className="space-y-6"
             >
+              {/* Profile Image */}
+              <motion.div
+                className="flex justify-center mb-8"
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+              >
+                <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-luigi-green shadow-lg">
+                  <img
+                    src="/images/profile/profile.png"
+                    alt="김주엽 프로필"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </motion.div>
+
               <Card className="border-luigi-green border-2">
                 <CardHeader>
-                  <CardTitle className="text-luigi-green">김주엽 (Kim Ju Yeop)</CardTitle>
+                  <CardTitle className="text-luigi-green">김주엽</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <p>
                     <strong>Born:</strong> 1999.08.13
                   </p>
                   <p>
-                    <strong>Location:</strong> 화성시, 경기도, Korea
+                    <strong>Location:</strong> 경기도 화성시 능동
                   </p>
                   <p className="text-gray-600">
-                    창조의 과정 자체를 즐기는 백엔드 개발자입니다. 새로운 기술을 학습하고 적용하는 것을 좋아하며, 팀과
-                    함께 성장하는 것을 중요하게 생각합니다.
+                    개발하는 과정 자체를 즐기는 백엔드 개발자입니다. <br/>
+                    새로운 기술을 학습하고 적용하는 것을 좋아하며, 팀과 함께 성장하는 것을 중요하게 생각합니다.
                   </p>
                 </CardContent>
               </Card>
@@ -197,26 +232,49 @@ export default function LuigiPortfolio() {
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="space-y-6"
+              className="space-y-8"
             >
-              <h3 className="text-2xl font-semibold text-luigi-green mb-6">Skills Progress</h3>
-              {skills.map((skill, index) => (
+              <h3 className="text-2xl font-semibold text-luigi-green mb-6">Skills</h3>
+              
+              {isClient && Object.entries(skillCategories).map(([category, skills], categoryIndex) => (
                 <motion.div
-                  key={skill.name}
-                  initial={{ opacity: 0, x: 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  key={category}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="space-y-2"
+                  transition={{ delay: categoryIndex * 0.2 }}
+                  className="space-y-4"
                 >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      {skill.icon}
-                      <span className="font-medium">{skill.name}</span>
-                    </div>
-                    <span className="text-sm text-gray-500">{skill.level}%</span>
+                  <h4 className="text-lg font-semibold text-gray-800">{category}</h4>
+                  <div className="flex flex-wrap gap-4">
+                    {skills.map((skill, index) => (
+                      <motion.div
+                        key={skill.name}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: categoryIndex * 0.2 + index * 0.1 }}
+                        className="group relative"
+                      >
+                        <div className="w-16 h-16 bg-white rounded-lg shadow-md border border-gray-200 flex items-center justify-center hover:shadow-lg transition-all duration-200 hover:scale-110">
+                          <img
+                            src={skill.icon}
+                            alt={skill.name}
+                            className="w-10 h-10 object-contain"
+                            loading="lazy"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                            }}
+                          />
+                        </div>
+                        {/* Tooltip */}
+                        <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-10">
+                          {skill.name}
+                        </div>
+                      </motion.div>
+                    ))}
                   </div>
-                  <Progress value={skill.level} className="h-2" />
                 </motion.div>
               ))}
             </motion.div>
@@ -302,6 +360,11 @@ export default function LuigiPortfolio() {
               >
                 <CardHeader>
                   <CardTitle className="text-2xl text-luigi-green">데브코스 수강생을 위한 커뮤니티 플랫폼</CardTitle>
+                  <img
+                    src="/images/projects/amateurs/cover.png"
+                    alt="Amateurs Cover"
+                    className="w-full h-64 object-cover"
+                  />
                   <CardDescription className="text-lg">
                     <strong>Duration:</strong> 2025.06.10 ~ 2025.07.17
                     <br />
@@ -331,8 +394,13 @@ export default function LuigiPortfolio() {
                       ))}
                     </div>
                   </div>
-                  <div className="text-center">
-                    <Button className="bg-luigi-green hover:bg-luigi-dark-green text-white">프로젝트 상세보기</Button>
+                  <div className="text-center space-y-3">
+                    <Button 
+                      className="bg-luigi-green hover:bg-luigi-dark-green text-white mr-3"
+                      onClick={() => setIsModalOpen(true)}
+                    >
+                      프로젝트 상세보기
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
@@ -375,7 +443,7 @@ export default function LuigiPortfolio() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            Let's Connect!
+            Contact Me
           </motion.h2>
 
           <motion.p
@@ -385,7 +453,7 @@ export default function LuigiPortfolio() {
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-            함께 멋진 프로젝트를 만들어보세요!
+            편하게 연락주세요! 언제든 환영입니다 :)
           </motion.p>
 
           <motion.div
@@ -396,21 +464,44 @@ export default function LuigiPortfolio() {
             transition={{ delay: 0.4 }}
           >
             {[
-              { icon: <Mail className="w-6 h-6" />, label: "Email", value: "kjyy08@naver.com" },
-              { icon: <Phone className="w-6 h-6" />, label: "Phone", value: "010-2472-0947" },
-              { icon: <Github className="w-6 h-6" />, label: "GitHub", value: "kjyy08" },
-              { icon: <ExternalLink className="w-6 h-6" />, label: "Blog", value: "velog.io/@kjyy08" },
+              { 
+                icon: <Mail className="w-6 h-6" />, 
+                label: "Email", 
+                value: "kjyy08@naver.com",
+                href: "mailto:kjyy08@naver.com"
+              },
+              { 
+                icon: <Phone className="w-6 h-6" />, 
+                label: "Phone", 
+                value: "010-2472-0947",
+                href: "tel:010-2472-0947"
+              },
+              { 
+                icon: <Github className="w-6 h-6" />, 
+                label: "GitHub", 
+                value: "kjyy08",
+                href: "https://github.com/kjyy08"
+              },
+              { 
+                icon: <ExternalLink className="w-6 h-6" />, 
+                label: "Blog", 
+                value: "velog.io/@kjyy08",
+                href: "https://velog.io/@kjyy08"
+              },
             ].map((contact, index) => (
-              <motion.div
+              <motion.a
                 key={index}
-                className="bg-white bg-opacity-20 p-6 rounded-lg hover:bg-opacity-30 transition-all cursor-pointer"
+                href={contact.href}
+                target={contact.href.startsWith('http') ? '_blank' : undefined}
+                rel={contact.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                className="bg-white bg-opacity-20 p-6 rounded-lg hover:bg-opacity-30 transition-all cursor-pointer block"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
                 <div className="mb-3">{contact.icon}</div>
                 <h3 className="font-semibold mb-1">{contact.label}</h3>
                 <p className="text-sm opacity-90">{contact.value}</p>
-              </motion.div>
+              </motion.a>
             ))}
           </motion.div>
         </div>
